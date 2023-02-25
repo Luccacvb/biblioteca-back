@@ -11,13 +11,16 @@ routes.get('/', (req, res) => {
 
 routes.get('/cliente', clientController.get)
 routes.post('/cliente', clientController.create)
+routes.delete('/cliente/:id', clientController.clienteDelete)
 
 routes.get('/livro', livroController.get)
 routes.post('/livro', livroController.create)
 routes.post('/livro/:id', livroController.putIsAlterado)
+routes.delete('/livro/:id', livroController.livroDelete)
 
 routes.get('/aluguel', aluguelController.get)
 routes.post('/aluguel', aluguelController.create)
 routes.put('/aluguel', aluguelController.put)
+routes.delete('/aluguel/:id', aluguelController.aluguelDelete)
 
 module.exports = { routes }

@@ -31,4 +31,17 @@ async function putIsAlterado(req, res) {
     return res.json(livroUpdate)
 }
 
-module.exports = { create, get, putIsAlterado }
+async function livroDelete(req, res) {
+    const livroId = parseInt(req.params.id)
+
+    const livro = await prisma.livro.delete({
+        where: {
+            id: livroId,
+        },
+    }).catch(()=>{
+     return res.status(500).json('Livros vinculados a alugueis não podem ser excluidos')
+    })
+    return res.json(livro);
+}
+
+module.exports = { create, get, putIsAlterado, livroDelete }

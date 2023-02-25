@@ -21,12 +21,15 @@ async function get(req, res) {
 async function put(req, res) {
 
     let { data, dataDevolucao } = req.body
+    let { valorDiaria } = req.body.Livro
 
     let dias = moment(dataDevolucao).diff(data, 'days')
-
-    req.body.valorArrecadado = parseFloat(dias) * parseFloat(req.body.valorDiaria)
+   
+    req.body.valorArrecadado = parseFloat(dias) * parseFloat(valorDiaria)
 
     delete req.body.valorDiaria
+    delete req.body.Livro
+    delete req.body.Cliente
 
     const aluguel = await prisma.aluguel.update({
         data: req.body,
@@ -37,4 +40,15 @@ async function put(req, res) {
     res.json(aluguel)
 }
 
-module.exports = { create, get, put }
+async function aluguelDelete(req, res) {
+    const aluguelId = parseInt(req.params.id)
+
+    const aluguel = await prisma.aluguel.delete({
+        where: {
+            id: aluguelId,
+        },
+    })
+    return res.json(aluguel)
+}
+
+module.exports = { create, get, put, aluguelDelete }
